@@ -1,35 +1,35 @@
 save(dat3,file="data0418.rdata")
 load("data0418.rdata")
 
-###### 3 ·ÖÆÚ ######
-##### 3.1Ä£ĞÍ #####
-## ¹¹½¨Êı¾İ
-dat4 <- dat3 %>% select(·ÖÆÚ,perinephric.stranding,MAPS,RELÆÀ·Ö,Ö¬µ°°×.ÊõÇ°,µÍÃÜ¶ÈÖ¬µ°°×µ¨¹Ì´¼.ÊõÇ°,
-                          ¸ßÃÜ¶ÈÖ¬µ°°×µ¨¹Ì´¼.ÊõÇ°,ÏËÎ¬µ°°×Ô­.ÊõÇ°,ÑªĞ¡°å¼ÆÊı.ÊõÇ°,TAM.ÊõÇ°,
-                          °×Ï¸°û.ÊõÇ°,µ¥ºËÏ¸°û.ÊõÇ°,ÖĞĞÔÁ£Ï¸°û.ÊõÇ°,Ñª¼¡ôûSCr.Êõºó,ÄòËØUrea.Êõºó,
-                          ÉöĞ¡ÇòÂË¹ıÂÊeGFR.Êõºó) %>% mutate(RELÆÀ·Ö=(RELÆÀ·Ö<=6 & RELÆÀ·Ö>=0)*1+(RELÆÀ·Ö<=9 & RELÆÀ·Ö>=7)*2++(RELÆÀ·Ö>=10)*3) %>% 
+###### 3 åˆ†æœŸ ######
+##### 3.1æ¨¡å‹ #####
+## æ„å»ºæ•°æ®
+dat4 <- dat3 %>% select(åˆ†æœŸ,perinephric.stranding,MAPS,RELè¯„åˆ†,è„‚è›‹ç™½.æœ¯å‰,ä½å¯†åº¦è„‚è›‹ç™½èƒ†å›ºé†‡.æœ¯å‰,
+                          é«˜å¯†åº¦è„‚è›‹ç™½èƒ†å›ºé†‡.æœ¯å‰,çº¤ç»´è›‹ç™½åŸ.æœ¯å‰,è¡€å°æ¿è®¡æ•°.æœ¯å‰,TAM.æœ¯å‰,
+                          ç™½ç»†èƒ.æœ¯å‰,å•æ ¸ç»†èƒ.æœ¯å‰,ä¸­æ€§ç²’ç»†èƒ.æœ¯å‰,è¡€è‚Œé…SCr.æœ¯å,å°¿ç´ Urea.æœ¯å,
+                          è‚¾å°çƒæ»¤è¿‡ç‡eGFR.æœ¯å) %>% mutate(RELè¯„åˆ†=(RELè¯„åˆ†<=6 & RELè¯„åˆ†>=0)*1+(RELè¯„åˆ†<=9 & RELè¯„åˆ†>=7)*2++(RELè¯„åˆ†>=10)*3) %>% 
   na.omit()
 x2 <- colnames(dat4)[-1]
 summary(dat4)
 
-## Öğ²½»Ø¹é
-full=as.formula(paste0("·ÖÆÚ","~", paste(x2, collapse= "+")))
+## é€æ­¥å›å½’
+full=as.formula(paste0("åˆ†æœŸ","~", paste(x2, collapse= "+")))
 m1=glm(full,data=dat4,family = binomial(link = "logit"))
 m2=step(m1, direction = c("backward"),k=log(nrow(dat4)))
 tmp <- summary(m2)$coefficients
 summary(m2)$coefficients
 stepname <- row.names(tmp)[-1]
-step=as.formula(paste0("·ÖÆÚ","~", paste(stepname, collapse= "+")))
+step=as.formula(paste0("åˆ†æœŸ","~", paste(stepname, collapse= "+")))
 m3=glm(step,data=dat4,family = binomial(link = "logit"))
 summary(m3)
 
 
-## Ô¤²â
+## é¢„æµ‹
 pred3 <- predict(m3,dat4,type = c("response"))
-mod3 <- roc(dat4$·ÖÆÚ,pred3)
-mod1.1 <- roc(dat4$·ÖÆÚ,dat4$perinephric.stranding)
-mod1.2 <- roc(dat4$·ÖÆÚ,dat4$RELÆÀ·Ö)
-mod1.3 <- roc(dat4$·ÖÆÚ,dat4$ÑªĞ¡°å¼ÆÊı.ÊõÇ°)
+mod3 <- roc(dat4$åˆ†æœŸ,pred3)
+mod1.1 <- roc(dat4$åˆ†æœŸ,dat4$perinephric.stranding)
+mod1.2 <- roc(dat4$åˆ†æœŸ,dat4$RELè¯„åˆ†)
+mod1.3 <- roc(dat4$åˆ†æœŸ,dat4$è¡€å°æ¿è®¡æ•°.æœ¯å‰)
 
 
 ##### 3.2delong test #####
@@ -45,24 +45,24 @@ roc.test(mod1.2,mod1.3)
 ddist=datadist(dat4)
 options(datadist="ddist")
 
-step = as.formula(paste("·ÖÆÚ~", paste(result3$var, collapse = "+")))
+step = as.formula(paste("åˆ†æœŸ~", paste(result3$var, collapse = "+")))
 mod=lrm(step,dat4,x = TRUE, y = TRUE)
 
-mod <- Newlabels(mod, c(RELÆÀ·Ö="RNS",perinephric.stranding="PFS",
-                        ÑªĞ¡°å¼ÆÊı.ÊõÇ°="Platelet counts"))
+mod <- Newlabels(mod, c(RELè¯„åˆ†="RNS",perinephric.stranding="PFS",
+                        è¡€å°æ¿è®¡æ•°.æœ¯å‰="Platelet counts"))
 
 nom=nomogram(mod,fun=plogis,lp=F,fun.at=c(seq(0.1,0.9,by=0.1)),funlabel="Predicted Risk")
-tiff(filename = "1130½á¹û/nomogram-·ÖÆÚ.tiff",width = 800, height = 800, units = "px",family="serif", pointsize = 18)
+tiff(filename = "1130ç»“æœ/nomogram-åˆ†æœŸ.tiff",width = 800, height = 800, units = "px",family="serif", pointsize = 18)
 plot(nom,fun.side = c(1,3,1,3,1,3,1,3,1)) 
 dev.off()
 ##### 3.4cal+hl #####
 cal_train=calibrate(mod,method="boot",B=1000) 
-tiff(filename = "1130½á¹û/calibrate-·ÖÆÚ.tiff",width = 800, height = 800, units = "px",family="serif", pointsize = 18)
+tiff(filename = "1130ç»“æœ/calibrate-åˆ†æœŸ.tiff",width = 800, height = 800, units = "px",family="serif", pointsize = 18)
 plot(cal_train,xlab="Nomogram Predicted Probability",ylab="Actual Probability",
      subtitles=F,xlim=c(0,1),ylim=c(0,1),cex.axis=1.5,cex.lab=1.3,legend=T) 
 dev.off()
 
-hl3 <- hoslem.test(dat4$·ÖÆÚ, pred3, g=10)
+hl3 <- hoslem.test(dat4$åˆ†æœŸ, pred3, g=10)
 hl3
 
 ##### 3.5roc #####
@@ -92,7 +92,7 @@ ff=paste0(c("Platelet counts:",sprintf("%0.3f", mod1.3$auc)," (",
 cc1=c(cc1,ff)
 cc2=c(cc2,5)
 
-tiff(filename = "1130½á¹û/ROC for ·ÖÆÚ.tiff",width = 800, height = 800, units = "px",family="serif", pointsize = 18)
+tiff(filename = "1130ç»“æœ/ROC for åˆ†æœŸ.tiff",width = 800, height = 800, units = "px",family="serif", pointsize = 18)
 roc=plot.roc(mod3,col=2,
              legacy.axes=TRUE,cex.axis=1.0,cex.lab=1.0,main="")
 lines.roc(mod1.1,col=3)
@@ -101,18 +101,18 @@ lines.roc(mod1.3,col=5)
 legend("bottomright",inset=.04,cc1,lty=1,col=cc2,title = "AUC(95%CI)",bty="n",cex=0.9)
 dev.off()
 
-#ÁéÃô¶È+ÌØÒì¶È
-##×ÜÄ£ĞÍ
+#çµæ•åº¦+ç‰¹å¼‚åº¦
+##æ€»æ¨¡å‹
 plot.roc(mod3,col=2,legacy.axes=TRUE,cex.axis=1.0,cex.lab=1.0,main="", print.thres=TRUE)
 ##perinephric.stranding
 plot.roc(mod1.1,col=2,legacy.axes=TRUE,cex.axis=1.0,cex.lab=1.0,main="", print.thres=TRUE)
-##RELÆÀ·Ö
+##RELè¯„åˆ†
 plot.roc(mod1.2,col=2,legacy.axes=TRUE,cex.axis=1.0,cex.lab=1.0,main="", print.thres=TRUE)
-##ÑªĞ¡°å¼ÆÊı.ÊõÇ°
+##è¡€å°æ¿è®¡æ•°.æœ¯å‰
 plot.roc(mod1.3,col=2,legacy.axes=TRUE,cex.axis=1.0,cex.lab=1.0,main="", print.thres=TRUE)
 
 ##### 3.6cvroc #####
-dat5 <- dat4 %>% rename(Y=·ÖÆÚ) %>% mutate(pred=pred3) %>% select(Y,pred)
+dat5 <- dat4 %>% rename(Y=åˆ†æœŸ) %>% mutate(pred=pred3) %>% select(Y,pred)
 
 set.seed(1234)
 ci_5_3 <- iid_example(data = dat5, V = 5)  
@@ -141,7 +141,7 @@ cc1=c(cc1,ff)
 cc2=c(cc2,3)
 
 
-tiff(filename = "1130½á¹û/5 folds ROC for ·ÖÆÚ.tiff",width = 800, height = 800, units = "px",family="serif", pointsize = 18)
+tiff(filename = "1130ç»“æœ/5 folds ROC for åˆ†æœŸ.tiff",width = 800, height = 800, units = "px",family="serif", pointsize = 18)
 plot(cv_5_3$perf, avg = "vertical",col = 3, lty = 1, main = "",xlab="1-specificity",ylab="Sensitivity",lwd=2)
 lines(1-mod3$sensitivities,mod3$specificities,col=2,lwd=2)
 abline(b=1,a=0,lwd=1)
@@ -166,7 +166,7 @@ cc1=c(cc1,ff)
 cc2=c(cc2,3)
 
 
-tiff(filename = "1130½á¹û/10 folds ROC for ·ÖÆÚ.tiff",width = 800, height = 800, units = "px", family="serif",pointsize = 18)
+tiff(filename = "1130ç»“æœ/10 folds ROC for åˆ†æœŸ.tiff",width = 800, height = 800, units = "px", family="serif",pointsize = 18)
 plot(cv_10_3$perf, avg = "vertical",col = 3, lty = 1, main = "",xlab="1-specificity",ylab="Sensitivity",lwd=2)
 lines(1-mod3$sensitivities,mod3$specificities,col=2,lwd=2)
 abline(b=1,a=0,lwd=1)
@@ -175,7 +175,7 @@ legend("bottomright",inset=.04,cc1,lty=1,col=cc2,title = "AUC(95%CI)",bty="n",ce
 dev.off()
 
 ##### 3.7Bootstrap #####
-dat6 <- dat4 %>% mutate(pred=pred3,label=·ÖÆÚ)
+dat6 <- dat4 %>% mutate(pred=pred3,label=åˆ†æœŸ)
 ##auc
 set.seed(1234)
 rs3<-boot(data=dat6,statistic = bs,R=1000)
@@ -197,7 +197,7 @@ cc2=c(cc2,3)
 
 dat6$label=as.logical(dat6$label)
 result.boot <- boot.roc(dat6$pred,dat6$label)
-tiff(filename = "1130½á¹û/Bootstrap roc for ·ÖÆÚ.tiff",width = 800, height = 800, units = "px", family="serif",pointsize = 18) 
+tiff(filename = "1130ç»“æœ/Bootstrap roc for åˆ†æœŸ.tiff",width = 800, height = 800, units = "px", family="serif",pointsize = 18) 
 plot(result.boot$roc$FPR,result.boot$roc$TPR,type="s",col = 3, lty = 1, main = "",
      xlab="1-specificity",ylab="Sensitivity",lwd=2,
      ylim=c(0,1),xlim=c(0,1))
@@ -210,32 +210,32 @@ dev.off()
 
 ##### 3.8DCA #####
 dat4$pred3=pred3
-N0=decision_curve(·ÖÆÚ~pred3,data=dat4,family=binomial(link="logit"),
+N0=decision_curve(åˆ†æœŸ~pred3,data=dat4,family=binomial(link="logit"),
                     thresholds=seq(0,1,by=0.005),confidence.intervals=0.95,
                     study.design="case-control")
-N1=decision_curve(·ÖÆÚ~RELÆÀ·Ö,data=dat4,family=binomial(link="logit"),
+N1=decision_curve(åˆ†æœŸ~RELè¯„åˆ†,data=dat4,family=binomial(link="logit"),
                     thresholds=seq(0,1,by=0.005),confidence.intervals=0.95,
                     study.design="case-control")  
-N2=decision_curve(·ÖÆÚ~perinephric.stranding,data=dat4,family=binomial(link="logit"),
+N2=decision_curve(åˆ†æœŸ~perinephric.stranding,data=dat4,family=binomial(link="logit"),
                     thresholds=seq(0,1,by=0.005),confidence.intervals=0.95,
                     study.design="case-control") 
-N3=decision_curve(·ÖÆÚ~ÑªĞ¡°å¼ÆÊı.ÊõÇ°,data=dat4,family=binomial(link="logit"),
+N3=decision_curve(åˆ†æœŸ~è¡€å°æ¿è®¡æ•°.æœ¯å‰,data=dat4,family=binomial(link="logit"),
                     thresholds=seq(0,1,by=0.005),confidence.intervals=0.95,
                     study.design="case-control") 
 
 
 
-# »­Í¼
+# ç”»å›¾
 list=list(N0,N1,N2,N3)
-tiff(filename = "1130½á¹û/dca-·ÖÆÚ.tiff",width = 800, height = 800, units = "px",family="serif", pointsize = 18)
+tiff(filename = "1130ç»“æœ/dca-åˆ†æœŸ.tiff",width = 800, height = 800, units = "px",family="serif", pointsize = 18)
 plot_decision_curve(list,curve.names=c("Integrated model","RNS",
                                        "PFS","Platelet counts"),
                     cost.benefit.axis=FALSE,col=2:5,
-                    confidence.intervals=FALSE,standardize=FALSE) #ÕâÌõÃüÁîÊÇ»­³öÀ´2ÌõDCA£¬¿ÉÒÔÏà»¥±È½Ï
+                    confidence.intervals=FALSE,standardize=FALSE) #è¿™æ¡å‘½ä»¤æ˜¯ç”»å‡ºæ¥2æ¡DCAï¼Œå¯ä»¥ç›¸äº’æ¯”è¾ƒ
 dev.off()
 
-tiff(filename = "1130½á¹û/dca-·ÖÆÚ+¿ÉĞÅÇø¼ä.tiff",width = 800, height = 800, units = "px", family="serif",pointsize = 18)
+tiff(filename = "1130ç»“æœ/dca-åˆ†æœŸ+å¯ä¿¡åŒºé—´.tiff",width = 800, height = 800, units = "px", family="serif",pointsize = 18)
 plot_decision_curve(N0,curve.names=c("Integrated model"),
                     cost.benefit.axis=FALSE,col=2,
-                    confidence.intervals=T,standardize=FALSE) #ÕâÌõÃüÁîÊÇ»­³öÀ´2ÌõDCA£¬¿ÉÒÔÏà»¥±È½Ï
+                    confidence.intervals=T,standardize=FALSE) #è¿™æ¡å‘½ä»¤æ˜¯ç”»å‡ºæ¥2æ¡DCAï¼Œå¯ä»¥ç›¸äº’æ¯”è¾ƒ
 dev.off()
