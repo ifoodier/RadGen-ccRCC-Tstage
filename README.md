@@ -1,7 +1,7 @@
 # Radiogenomics-ccRCC-Tstage
 
 ## Introduction
-This project aims to predict the pathological T stage of clear cell renal cell carcinoma (ccRCC) based on radiogenomic models utilizing tumor and perirenal fat imaging data. By integrating imaging data with genomic information, we provide more accurate predictions for pathological staging.
+This project aims to predict the pathological T stage of clear cell renal cell carcinoma (ccRCC) using radiomics models basedon tumor and perirenal adipose tissue. By integrating imaging data with genomic information, we provide more accurate predictions for pathological staging.
 
 ## Features
 - Development of radiogenomic models
